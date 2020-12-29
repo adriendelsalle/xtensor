@@ -635,7 +635,18 @@ namespace xt
     {
         return xt::cast<R>(std::forward<E>(e));
     }
-    
+
+    template <class R, layout_type L, class E>
+    inline auto asarray(E&& e)
+        -> std::enable_if_t<((std::decay_t<E>::static_layout != L) || 
+                             (L != layout_type::any)) && 
+                            (!std::is_same<typename std::decay_t<E>::value_type, R>::value),
+                xarray<R, L>>
+    {
+        xt::xarray<R, L> res = xt::cast<R>(std::forward<E>(e));
+        
+        return res;
+    }
 }
 
 #endif
