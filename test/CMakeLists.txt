@@ -192,6 +192,7 @@ set(COMMON_BASE
 
 set(XTENSOR_TESTS
     main.cpp
+    test_asarray.cpp
     test_xaccumulator.cpp
     test_xadapt.cpp
     test_xaxis_iterator.cpp

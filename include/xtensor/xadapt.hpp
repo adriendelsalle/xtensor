@@ -598,6 +598,44 @@ namespace xt
             l
         );
     }
+
+
+    /***********
+     * asarray *
+     ***********/
+
+    template <class R = void, layout_type L = layout_type::any, class E>
+    inline auto asarray(E&& e)
+        -> std::enable_if_t<((std::decay_t<E>::static_layout == L) || 
+                             (L == layout_type::any)) && 
+                            ((std::is_same<typename std::decay_t<E>::value_type, R>::value) ||
+                             (std::is_same<R, void>::value)),
+                E&&>
+    {
+        return std::forward<E>(e);
+    }
+
+    template <class R = void, layout_type L = layout_type::any, class E>
+    inline auto asarray(E& e)
+        -> std::enable_if_t<((std::decay_t<E>::static_layout == L) || 
+                             (L == layout_type::any)) && 
+                            ((std::is_same<typename std::decay_t<E>::value_type, R>::value) ||
+                             (std::is_same<R, void>::value)),
+                E&>
+    {
+        return e;
+    }
+    
+    template <class R, layout_type L = layout_type::any, class E>
+    inline auto asarray(E&& e)
+        -> std::enable_if_t<((std::decay_t<E>::static_layout == L) || 
+                             (L == layout_type::any)) && 
+                            (!std::is_same<typename std::decay_t<E>::value_type, R>::value),
+                detail::xfunction_type_t<typename detail::cast<R>::functor, E>>
+    {
+        return xt::cast<R>(std::forward<E>(e));
+    }
+    
 }
 
 #endif
