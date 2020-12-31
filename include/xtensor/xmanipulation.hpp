@@ -13,6 +13,7 @@
 #include "xbuilder.hpp"
 #include "xstrided_view.hpp"
 #include "xutils.hpp"
+#include "xtensor.hpp"
 #include "xtensor_config.hpp"
 #include "xrepeat.hpp"
 
